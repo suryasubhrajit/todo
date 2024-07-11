@@ -1,43 +1,45 @@
-// Todo.js File 
+// Imports necessary components and functionalities
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import ListGroup from "react-bootstrap/ListGroup";
-import Header from "./components/Header";
+import { Row, Col, Button, InputGroup, FormControl, ListGroup } from "react-bootstrap";
 import { Plus, Trash, ArrowRight, Toggle2On, Toggle2Off, Pen } from 'react-bootstrap-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo, toggleComplete, deleteTodo, editTodo } from "./todoSlice";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-
 const Todo = () => {
+    // State to manage the new todo text input
     const [text, setText] = useState("");
+
+    // Accessing todos and dispatch function from Redux store using useSelector and useDispatch hooks
     const todos = useSelector((state) => state.todos);
     const dispatch = useDispatch();
 
+    // Handles changes in the new todo text input field
     const handleInputChange = (e) => {
         setText(e.target.value);
     };
 
+    // Dispatches the addTodo action to add a new todo with the current text
     const handleAddTodo = () => {
         if (text) {
             dispatch(addTodo(text));
-            setText("");
+            setText(""); // Clear the input field after adding a todo
         }
     };
 
+    // Dispatches the toggleComplete action to toggle the completion state of a todo
     const handleToggleComplete = (id) => {
         dispatch(toggleComplete(id));
     };
 
+    // Dispatches the deleteTodo action to delete a todo
     const handleDeleteTodo = (id) => {
         dispatch(deleteTodo(id));
     };
 
+    // Opens a prompt to edit the text of a todo and dispatches the editTodo action
     const handleEditClick = (id) => {
         const newText = prompt("Edit the todo:");
         if (newText !== null && newText.trim() !== "") {
@@ -47,14 +49,15 @@ const Todo = () => {
         }
     };
 
+    // Renders the Todo component
     return (
         <>
             <div className="bg-dark overflow-x-hidden" style={{ minHeight: '100vh' }}>
-                <Header />
-                <div style={{minHeight:'74vh', padding:'0 2rem'}}>
-                    <Row style={{ marginTop: '50px' }}>
-                        <Col md={{ span: 5, offset: 4 }}>
-                            <InputGroup className="mb-3 d-flex align-items-center">
+                <Header />{/* Renders the Header component */}
+                <div style={{ minHeight: '74vh', padding: '0 2rem' }}>{/* Main content container */}
+                    <Row style={{ marginTop: '50px' }}>{/* Row for adding a new todo */}
+                        <Col md={{ span: 5, offset: 4 }}>{/* Column for the input field and button */}
+                            <InputGroup className="mb-3 d-flex align-items-center">{/* Input group for adding a todo */}
                                 <Plus size={"22"} style={{ color: "#ee4444", border: '1px solid #ee4444', borderRadius: '50%' }} />
                                 <FormControl
                                     placeholder="Add task . . . "
@@ -81,14 +84,16 @@ const Todo = () => {
                             </InputGroup>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md={{ span: 5, offset: 4 }}>
-                            <ListGroup style={{height:'60vh', overflowY: 'auto',}}>
+
+
+                    <Row>{/* Row for displaying the todo list */}
+                        <Col md={{ span: 5, offset: 4 }}>{/* Column for the todo list */}
+                            <ListGroup style={{ height: '60vh', overflowY: 'auto', }}>{/* List group for displaying todos */}
                                 {/* map over and print items */}
-                                {todos.map((todo) => {
+                                {todos.map((todo) => {// Loops through each todo in the state
                                     return (
-                                        <div key={todo.id} >
-                                            <ListGroup.Item
+                                        <div key={todo.id} >{/* Key prop for efficient re-rendering */}
+                                            <ListGroup.Item // Individual todo item
                                                 action
                                                 style={{
                                                     display: "flex",
@@ -96,36 +101,36 @@ const Todo = () => {
                                                     alignItems: 'center'
                                                 }}
                                             >
-                                                <div>
+                                                <div>{/* Container for todo text and completion toggle */}
                                                     <button style={{ border: 0, outline: 0, boxShadow: 'none', background: 'none', padding: '0', marginRight: '10px' }} onClick={() => handleToggleComplete(todo.id)}>
                                                         {" "}
-                                                        {todo.completed ? <><Toggle2On size={"22"} /></> : <><Toggle2Off size={"22"} /></>}{" "}
+                                                        {todo.completed ? <><Toggle2On size={"22"} /></> : <><Toggle2Off size={"22"} /></>}{" "}{/* Conditional rendering of completion toggle icons */}
                                                     </button>
-                                                    <span className={todo.completed ? "text-decoration-line-through" : ""}>{todo.text}</span>
+                                                    <span className={todo.completed ? "text-decoration-line-through" : ""}>{todo.text}</span>{/* Displays the todo text with line-through for completed todos */}
                                                 </div>
 
-                                                <div style={{
+                                                <div style={{// Container for delete and edit buttons
                                                     display: "flex",
                                                     justifyContent: 'space-between',
                                                     alignItems: 'center'
                                                 }}>
-                                                    <Button style={{
+                                                    <Button style={{// Delete button styles
                                                         marginRight: "2px", fontSize: "15px", display: "flex",
                                                         justifyContent: 'center',
                                                         alignItems: 'center'
                                                     }}
                                                         variant="light"
                                                         onClick={() => handleDeleteTodo(todo.id)}>
-                                                        <Trash style={{ paddingRight: '2px' }} /> Delete
+                                                        <Trash style={{ paddingRight: '2px' }} /> Delete{/* Delete button with icon */}
                                                     </Button>
-                                                    <Button style={{
+                                                    <Button style={{// Edit button styles
                                                         marginLeft: "2px", fontSize: "15px", display: "flex",
                                                         justifyContent: 'center',
                                                         alignItems: 'center'
                                                     }}
                                                         variant="light"
                                                         onClick={() => handleEditClick(todo.id)}>
-                                                        <Pen style={{ paddingRight: '2px' }} /> Edit
+                                                        <Pen style={{ paddingRight: '2px' }} /> Edit{/* Edit button with icon */}
                                                     </Button>
                                                 </div>
                                             </ListGroup.Item>
@@ -138,7 +143,7 @@ const Todo = () => {
                 </div>
 
                 <div>
-                    <Footer/>
+                    <Footer />{/* Renders the Footer component */}
                 </div>
             </div>
         </>
