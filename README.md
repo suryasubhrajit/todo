@@ -1,4 +1,6 @@
-Demo: https://shaadow-todo.vercel.app/![1000102595](https://github.com/suryasubhrajit/todo/assets/103438272/b6846d3c-72b5-420c-8d4c-4911c8c442be)
+Demo: https://shaadow-todo.vercel.app/
+
+(https://github.com/suryasubhrajit/todo/assets/103438272/b6846d3c-72b5-420c-8d4c-4911c8c442be)
 
 
 
